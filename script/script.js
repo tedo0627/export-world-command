@@ -1,16 +1,59 @@
 const {processAnvil} = require("./anvil-format")
 
-document.getElementById('file').addEventListener('change', handleFileSelect, false)
+// ボタン
+const file = document.getElementById("file")
+file.addEventListener('change', handleFileInput, false)
 
-function handleFileSelect(event) {
-    clearTable()
+// inputのボタンと結びつける
+document.getElementById("fileButton")
+    .addEventListener("click", (_) => {
+        file.click()
+    })
+
+// ドラッグアンドドロップ
+const drop = document.getElementById("dropArea")
+drop.addEventListener("drop", handleFileDrop, false)
+drop.addEventListener("dragover", (e) => {
+    e.preventDefault()
+}, false)
+
+/**
+ * inputのファイルの処理
+ * @param {Event} event
+ */
+function handleFileInput(event) {
+    event.preventDefault()
 
     const files = event.target.files
-    for (let i = 0; i < files.length; i++) {
-        const f = files[i]
-        const reader = new FileReader()
+    if (typeof files[0] === "undefined") return
 
-        reader.readAsArrayBuffer(f)
+    handleFiles(files)
+}
+
+/**
+ * ドラッグアンドドロップのファイルの処理
+ * @param {DragEvent} event
+ */
+function handleFileDrop(event) {
+    event.preventDefault()
+
+    const files = event.dataTransfer.files
+    if (typeof files[0] === "undefined") return
+
+    handleFiles(files)
+}
+
+/**
+ * ファイルの処理
+ * @param {FileList} files
+ */
+function handleFiles(files) {
+    clearTable()
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i]
+        const reader = new FileReader()
+        reader.readAsArrayBuffer(file)
 
         // ファイルが読み込まれた後の処理
         reader.onload = (function() {
@@ -18,8 +61,7 @@ function handleFileSelect(event) {
                 const data = new DataView(e.target.result)
                 processAnvil(data)
             }
-        })(f)
-
+        })(file)
     }
 }
 
