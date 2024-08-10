@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "npx browserify src/script/script.js -o src/dist/bundle.js"
+    "build": "npx browserify script/script.js -o dist/bundle.js"
   },
   "keywords": [],
   "author": "",

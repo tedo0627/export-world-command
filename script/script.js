@@ -13,7 +13,7 @@ function handleFileSelect(event) {
         reader.readAsArrayBuffer(f)
 
         // ファイルが読み込まれた後の処理
-        reader.onload = (function(file) {
+        reader.onload = (function() {
             return function(e) {
                 const data = new DataView(e.target.result)
                 processAnvil(data)
