@@ -22,6 +22,11 @@ jobs:
       - name: Node.js run browserify
         run: npm run build
 
+      - name: Upload pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: data
+
   deploy:
     needs: build
 
