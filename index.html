@@ -9,16 +9,21 @@
     <script src="node_modules/sortable-tablesort/sortable.min.js"></script>
 </head>
 <body>
-    <h1>ファイルを選択してください</h1>
+    <h1>export-world-command</h1>
 
-    <label for="file">ファイル選択:</label>
+    <div>
+        マイクラのワールドファイル mca ファイルから、コマンドブロックと看板の中のコマンドを抽出するツール<br>
+        <br>
+        ファイル選択ボタンからワールドフォルダ、regionフォルダ内の r.x.x.mca ファイルを選択してください<br>
+        複数選択も可能です
+    </div>
+
+    <h2>ファイルを選択してください</h2>
+
+    <label for="file"></label>
     <input type="file" id="file" name="file" multiple accept=".mca"><br><br>
 
-    <label for="text">出力</label><br>
-    <textarea id="text" name="text" rows="10" cols="50"></textarea><br><br>
-
-    <div id="output"></div>
-
+    <label>出力</label><br>
     <table class="sortable">
         <thead>
             <tr>
