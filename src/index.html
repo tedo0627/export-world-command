@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>extract-world-command</title>
+
+    <link href="./../node_modules/sortable-tablesort/sortable.min.css" rel="stylesheet" />
+    <script src="./../node_modules/sortable-tablesort/sortable.min.js"></script>
+</head>
+<body>
+    <h1>ファイルを選択してください</h1>
+
+    <label for="file">ファイル選択:</label>
+    <input type="file" id="file" name="file" multiple accept=".mca"><br><br>
+
+    <label for="text">出力</label><br>
+    <textarea id="text" name="text" rows="10" cols="50"></textarea><br><br>
+
+    <div id="output"></div>
+
+    <table class="sortable">
+        <thead>
+            <tr>
+                <th>ブロック</th>
+                <th>X</th>
+                <th>Y</th>
+                <th>Z</th>
+                <th>コマンド</th>
+            </tr>
+        </thead>
+        <tbody id="resultTable"></tbody>
+    </table>
+
+    <script src="dist/bundle.js" defer type="module"></script>
+</body>
+</html>
