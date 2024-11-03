@@ -72,3 +72,44 @@ function clearTable() {
     const table = document.getElementById("resultTable")
     table.innerHTML = ""
 }
+
+const versions = [
+    "1.7.10", "1.8.9", "1.9.4",
+    "1.10.2", "1.11.2", "1.12.2",
+    "1.13.2", "1.14.4", "1.15.2",
+    "1.16.5", "1.17.1", "1.18.1",
+    "1.18.2", "1.19.4", "1.20.1",
+    "1.20.2", "1.20.4", "1.20.6",
+    "1.21.1", "1.21.3"
+]
+
+// サンプルデータの処理
+const sampleContainer = document.getElementById("sampleContainer")
+
+for (let i = 0; i < versions.length; i++) {
+    if (i % 6 === 0) {
+        sampleContainer.appendChild(document.createElement("br"))
+    }
+
+    const version = versions[i]
+    const button = document.createElement("button")
+    button.textContent = version
+    button.addEventListener("click", (_) => {
+        inputSample(version)
+    })
+
+    sampleContainer.appendChild(button)
+}
+
+/**
+ * サンプルデータの結果を表示する
+ * @param {string} version
+ */
+function inputSample(version) {
+    clearTable()
+    fetch("/sample/" + version + ".mca")
+        .then((r) => r.arrayBuffer())
+        .then((buff) => {
+            processAnvil(new DataView(buff))
+        })
+}
