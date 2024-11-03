@@ -9,6 +9,15 @@ exports.processChunkNbt = function processChunkNbt(tag) {
     if (!("value" in tag)) return
     tag = tag.value
 
+    newFormat(tag)
+    oldFormat(tag)
+}
+
+/**
+ * 1.18以上のフォーマット
+ * @param {Object} tag
+ */
+function newFormat(tag) {
     if (!("block_entities" in tag)) return
     tag = tag.block_entities
 
@@ -30,6 +39,43 @@ exports.processChunkNbt = function processChunkNbt(tag) {
         if (blockEntityName === "minecraft:command_block") {
             commandBlock(blockEntityTag)
         } else if (blockEntityName === "minecraft:sign") {
+            sign(blockEntityTag)
+        }
+    }
+}
+
+/**
+ * 1.18未満のフォーマット
+ * @param {Object} tag
+ */
+function oldFormat(tag) {
+    if (!("Level" in tag)) return
+    tag = tag.Level
+
+    if (!("value" in tag)) return
+    tag = tag.value
+
+    if (!("TileEntities" in tag)) return
+    tag = tag.TileEntities
+
+    if (!("value" in tag)) return
+    tag = tag.value
+
+    if (!("value" in tag)) return
+    tag = tag.value
+
+    if (!Array.isArray(tag)) return
+    for (let i = 0; i < tag.length; i++) {
+        let blockEntityTag = tag[i]
+
+        if (!("id" in blockEntityTag)) return
+        const idTag = blockEntityTag.id
+
+        if (!("value" in idTag)) return
+        const blockEntityName = idTag.value
+        if (blockEntityName === "Control" || blockEntityName === "minecraft:command_block") {
+            commandBlock(blockEntityTag)
+        } else if (blockEntityName === "Sign" || blockEntityName === "minecraft:sign") {
             sign(blockEntityTag)
         }
     }
