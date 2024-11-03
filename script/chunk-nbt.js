@@ -99,22 +99,3 @@ function addTable(block, x, y, z, command) {
 
     table.appendChild(tr)
 }
-
-/**
- * 看板の文字からコマンドを抽出する
- * @param {string} text
- */
-function extractSignCommand(text) {
-    const obj = JSON.parse(text)
-    if (!obj) return null
-    if (!(obj instanceof Object)) return null
-
-    if (!("clickEvent" in obj)) return null
-    const clickEvent = obj.clickEvent
-
-    if (!("action" in clickEvent)) return null
-    if (clickEvent.action !== "run_command") return null
-
-    if (!("value" in clickEvent)) return null
-    return clickEvent.value
-}
