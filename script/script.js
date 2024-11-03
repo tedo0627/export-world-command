@@ -107,7 +107,9 @@ for (let i = 0; i < versions.length; i++) {
  */
 function inputSample(version) {
     clearTable()
-    fetch("/sample/" + version + ".mca")
+
+    const url = new URL("sample/" + version + ".mca", window.location.href)
+    fetch(url.href)
         .then((r) => r.arrayBuffer())
         .then((buff) => {
             processAnvil(new DataView(buff))
