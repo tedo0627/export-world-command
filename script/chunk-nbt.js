@@ -1,4 +1,5 @@
 const {NBT} = require("prismarine-nbt")
+const {parseSign} = require("./sign-parser");
 
 /**
  * チャンクのNBTの処理
@@ -34,6 +35,9 @@ exports.processChunkNbt = function processChunkNbt(tag) {
     }
 }
 
+/**
+ * @param {Object} tag
+ */
 function commandBlock(tag) {
     let command = ""
     let x = 0
@@ -53,56 +57,14 @@ function commandBlock(tag) {
 }
 
 /**
- *
- * @param tag
+ * @param {Object} tag
  */
 function sign(tag) {
-    const commands = []
-
-    if ("back_text" in tag && "value" in tag.back_text) {
-        const backTextTag = tag.back_text.value
-        if ("messages" in backTextTag && "value" in backTextTag.messages && "value" in backTextTag.messages.value) {
-            const messages = backTextTag.messages.value.value
-
-            if (Array.isArray(messages)) {
-                for (let i = 0; i < messages.length; i++) {
-                    const message = messages[i]
-                    const command = extractSignCommand(message)
-                    if (command) {
-                        commands.push(command)
-                    }
-                }
-            }
-        }
-    }
-
-    if ("front_text" in tag && "value" in tag.front_text) {
-        const frontTextTag = tag.front_text.value
-        if ("messages" in frontTextTag && "value" in frontTextTag.messages && "value" in frontTextTag.messages.value) {
-            const messages = frontTextTag.messages.value.value
-
-            if (Array.isArray(messages)) {
-                for (let i = 0; i < messages.length; i++) {
-                    const message = messages[i]
-                    const command = extractSignCommand(message)
-                    if (command) {
-                        commands.push(command)
-                    }
-                }
-            }
-        }
-    }
-
-    let x = 0
-    let y = 0
-    let z = 0
-    if ("x" in tag && "value" in tag.x) x = tag.x.value
-    if ("y" in tag && "value" in tag.y) y = tag.y.value
-    if ("z" in tag && "value" in tag.z) z = tag.z.value
-
-    for (let i = 0; i < commands.length; i++) {
-        const command = commands[i]
-        addTable("sign", x, y, z, command)
+    /** @type {CommandResult[]} */
+    const results = parseSign(tag)
+    for (let i = 0; i < results.length; i++) {
+        const command = results[i]
+        addTable(command.type, command.x, command.y, command.z, command.command)
     }
 }
 
